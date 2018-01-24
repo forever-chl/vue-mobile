@@ -17,7 +17,6 @@ export default {
   },
   watch: {
     playSone(){
-      debugger;
       this.initFunc();
     }
   },
