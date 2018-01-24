@@ -11,20 +11,20 @@ export default {
   data(){
     return{
       dataInfo:[],
-      playSone:this.$store.state.thePlaySong,
+      playSone:[],
       durationS:0
-    }
-  },
-  watch: {
-    playSone(){
-      this.initFunc();
     }
   },
   mounted(){
     this.initFunc();
+    this.$on("refreshTheSong",function(){
+      debugger;
+      this.initFunc();
+    });
   },
   methods:{
       initFunc(){
+        this.playSone=this.$store.getters.getPlaySong;
         this.getSongDetail();
         this.getMusicInfo();
       },

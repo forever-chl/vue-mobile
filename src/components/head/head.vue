@@ -38,6 +38,7 @@
         methods:{
             setTheSong(id,text){
                 this.$store.commit('setTheSong',id);
+                this.$emit('refreshTheSong');
             }
         }
     }

@@ -29,7 +29,7 @@ export default{
                 resolve();
             });
             myPromise.then(()=>{
-                // this.$parent.initFunc();
+                this.$parent.initFunc();
                 this.getLyric();
                 this.getSongInfo();
                 this.getMusicInfo();
