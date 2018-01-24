@@ -1,0 +1,45 @@
+/*滑块*/
+
+.aui-range {
+    position: relative;
+    display: inline-block;
+}
+
+.aui-range input[type='range'] {
+    height: 0.2rem;
+    border: 0;
+    border-radius: 3rem;
+    background-color: #ddd;
+    position: relative;
+    -webkit-appearance: none !important;
+    width:100%;
+}
+
+.aui-range input[type='range']::-webkit-slider-thumb {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border:solid 1px #ccc;;
+    background-color: #fff;
+    -webkit-appearance: none !important;
+}
+
+.aui-range .aui-range-tip {
+    font-size: 1rem;
+    position: absolute;
+    z-index: 999;
+    top: -1.8rem;
+    width: 2.4rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    color: #666666;
+    border: 1px solid #dddddd;
+    border-radius: 0.3rem;
+    background-color: #ffffff;
+}
+
+.aui-input-row .aui-range input[type='range'] {
+    width: 90%;
+    margin-left: 5%;
+}
