@@ -1,28 +1,8 @@
-import head from '../../components/head/head.vue'
 export default{
-    props:['id'],
+    props:['dataList'],
     name:"SongListTemplate",
-    components: {
-        'sl-head':head
-    },
-    data:function() {
-        return {
-            dataList:[]
-        }
-    },
-    mounted:function(){
-        this.getSongList();
-    },
     methods:{
-        getSongList:function(){
-            var _this=this;
-            _this.axios.get(`playlist/detail?id=${_this.id}`).then(function(data){
-                data=JSON.parse(data.request.response);
-                _this.dataList=data;
-            });
-            
-        },
-        goListen:function(id){
+        goListen(id){
             var listenList=[];
             this.dataList.playlist.tracks.forEach(element => {
                 var param={};
@@ -31,9 +11,18 @@ export default{
                 param.author=element.ar[0].name;
                 listenList.push(param);
             });
-            this.$store.dispatch('addSongList',listenList);
-            this.$store.commit('setTheSong',id);
-            this.$router.push({'name':'listen','params':{'id':id}});
-        }
+            this.$store.dispatch('addSongList',listenList).then(()=>this.getSongDetail(id));
+            
+        },
+        getSongDetail(id){
+            var _this=this;
+            _this.axios.get(`music/url?id=${id}`).then(function(data){
+                data=JSON.parse(data.request.response).data;
+                if(data.length>0){
+                    _this.$store.commit('setTheSong',{'id':id,'url':data[0].url});
+                    _this.$router.push({'name':'listen','params':{'id':id}});
+                }
+            });
+        },
     }
 }

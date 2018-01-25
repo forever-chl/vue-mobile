@@ -19,7 +19,7 @@
             this.actionSheet=new window.auiActionsheet();
         },
         methods:{
-            openActionSheet:function(){
+            openActionSheet(){
                 var _this=this;
                 _this.actionSheet.init({
                     frameBounces:true,//当前页面是否弹动，（主要针对安卓端）
@@ -30,10 +30,19 @@
                     buttonsText:_this.btnsText
                 },function(ret){
                     if(ret){
-                        _this.$emit('choise',ret.buttonVal,ret.buttonTitle);
+                         _this.getSongDetail(ret.buttonVal);
                     }
                 })
-            }
+            },
+            getSongDetail(id){
+                var _this=this;
+                _this.axios.get(`music/url?id=${id}`).then(function(data){
+                    data=JSON.parse(data.request.response).data;
+                    if(data.length>0){
+                        _this.$store.commit('setTheSong',{'id':id,'url':data[0].url});
+                    }
+                });
+            },
         }
     }
 </script>

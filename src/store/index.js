@@ -1,26 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 Vue.use(Vuex)
+Vue.use(VueAxios,axios)
 export default new Vuex.Store({
     state:{
         songList:[],
-        thePlaySong:{index:0,id:0}
+        thePlaySong:{index:0,id:0,url:''}
     },
     mutations:{
-        //添加播放列表
-        addSongList:(state,list)=>{
-            list.forEach(element => {
-                if(!_this.checkIsInSongList(state,element)){
-                    state.songList.push(element);
-                }
-            });
-            console.log(state.songList);
+        addSongList:(state,info)=>{
+            state.songList.push(info);
         },
         //设置当前播放歌曲
-        setTheSong:(state,id)=>{
+        setTheSong:(state,songInfo)=>{
             state.songList.forEach((element,index)=>{
-                if(element.id==id){
-                    state.thePlaySong={index:index,id:element.id};
+                if(element.id==songInfo.id){
+                    state.thePlaySong={index:index,id:songInfo.id,url:songInfo.url};
                     return;
                 }
             });
@@ -28,7 +26,7 @@ export default new Vuex.Store({
         //检查播放列表是否已有该歌曲
         checkIsInSongList:(state,id)=>{
             state.songList.forEach(element=>{
-                if(element==id){
+                if(element.id==id){
                     return true;
                 }
             });
@@ -42,7 +40,12 @@ export default new Vuex.Store({
         },
         //获取当前播放歌曲
         getPlaySong:state=>{
+            console.log(state.thePlaySong);
             return state.thePlaySong;
+        },
+        //根据inex获取歌曲
+        getNextSongInfo:state=>{
+            return state.songList[parseInt(state.thePlaySong.index)+1];
         }
     },
     actions:{
@@ -50,17 +53,9 @@ export default new Vuex.Store({
         addSongList:(context,list)=>{
             list.forEach(element => {
                 if(!context.commit('checkIsInSongList',element)){
-                    context.state.songList.push(element);
+                    context.commit('addSongList',element);
                 }
             });
-        },
-        //设置当前播放歌曲为顺延下一首
-        nextSong:(context)=>{
-            var allSongList=context.getters.getSongList;
-            var theSongIndex=(context.getters.getPlaySong).index;
-            var nextSongIndex=(theSongIndex==(allSongList.length-1)?0:(theSongIndex+1));
-            var nextSongId=allSongList[nextSongIndex].id;
-            context.commit('setTheSong',nextSongId);
         }
     }
 })

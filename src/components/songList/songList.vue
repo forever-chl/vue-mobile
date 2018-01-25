@@ -1,6 +1,5 @@
 <template>
     <div class="SongListTemplate">
-        <sl-head :title="dataList.playlist?dataList.playlist.name:''"></sl-head>
         <div class="sl-top" v-if="dataList.playlist">
             <div class="slt-img"><img :src="dataList.playlist.coverImgUrl"></div>
             <div class="slt-text">
