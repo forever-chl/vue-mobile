@@ -10,7 +10,9 @@ export default new Vuex.Store({
         songList:[],
         thePlaySong:{index:0,id:0,url:''}
     },
+    //值的更改
     mutations:{
+        //添加到播放列表
         addSongList:(state,info)=>{
             state.songList.push(info);
         },
@@ -19,20 +21,11 @@ export default new Vuex.Store({
             state.songList.forEach((element,index)=>{
                 if(element.id==songInfo.id){
                     state.thePlaySong={index:index,id:songInfo.id,url:songInfo.url};
-                    return;
                 }
             });
-        },
-        //检查播放列表是否已有该歌曲
-        checkIsInSongList:(state,id)=>{
-            state.songList.forEach(element=>{
-                if(element.id==id){
-                    return true;
-                }
-            });
-            return false;
         }
     },
+    //值的读取
     getters:{
         //获取播放列表
         getSongList:state=>{
@@ -46,13 +39,23 @@ export default new Vuex.Store({
         //根据inex获取歌曲
         getNextSongInfo:state=>{
             return state.songList[parseInt(state.thePlaySong.index)+1];
+        },
+        //检查播放列表是否已有该歌曲
+        checkIsInSongList:state=>(id)=>{
+            var isExist=false;
+            state.songList.forEach(element=>{
+                if(element.id==id){
+                    isExist=true;
+                }
+            });
+            return isExist;
         }
     },
     actions:{
         //向播放列表添加歌曲
         addSongList:(context,list)=>{
             list.forEach(element => {
-                if(!context.commit('checkIsInSongList',element)){
+                if(!context.getters.checkIsInSongList(element.id)){
                     context.commit('addSongList',element);
                 }
             });

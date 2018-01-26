@@ -1,9 +1,9 @@
 import range from '../../components/formRange/formRange.vue'
 import title from '../../components/head/head.vue'
+import actionSheet from '../../components/actionSheet/actionSheet.vue'
 import {mapGetters} from 'vuex'
 export default{
-    name:'ListenTemplate',
-    data:function(){
+    data(){
         return{
             songDetail:[],
             dataInfo:[],
@@ -16,22 +16,30 @@ export default{
     },
     components: {
         'music-range':range,
-        'music-head':title
+        'music-head':title,
+        'action-sheet':actionSheet
     },
-    computed: mapGetters({
-       playSong:'getPlaySong'
+    computed:mapGetters({
+        playSong:'getPlaySong',
+        songList:'getSongList'
     }),
-    mounted:function(){
-        this.initPage();
+    watch:{
+        playSong(){
+            this.initPage();
+        }
+    },
+    mounted(){
+        var _this=this;
+        _this.initPage();
     },
     methods:{
-        initPage:function(){
+        initPage(){
             this.getLyric();
             this.getSongInfo();
             this.getMusicInfo();
         },
         //获取音乐标题
-        getSongInfo:function(){
+        getSongInfo(){
             var _this=this
             _this.axios.get(`/song/detail?ids=${_this.playSong.id}`).then(function(data){
                     data=JSON.parse(data.request.response).songs[0];
@@ -39,23 +47,27 @@ export default{
             });
         },
         //获取音乐歌词
-        getLyric:function(){
+        getLyric(){
             var _this=this;
             _this.axios.get(`lyric?id=${_this.playSong.id}`).then(function(data){
-                data=JSON.parse(data.request.response).lrc.lyric;
-                _this.lyricInfo=data.split('\n');
-                var newLyric=[];
-                for(var i=0;i<_this.lyricInfo.length;i++){
-                    var thelyricInfo={};
-                    thelyricInfo.time=_this.lyricInfo[i].split("]")[0]+"]";
-                    thelyricInfo.txt=_this.lyricInfo[i].split("]")[1];
-                    newLyric.push(thelyricInfo);
+                if(JSON.parse(data.request.response).lrc){
+                    data=JSON.parse(data.request.response).lrc.lyric;
+                    _this.lyricInfo=data.split('\n');
+                    var newLyric=[];
+                    for(var i=0;i<_this.lyricInfo.length;i++){
+                        var thelyricInfo={};
+                        thelyricInfo.time=_this.lyricInfo[i].split("]")[0]+"]";
+                        thelyricInfo.txt=_this.lyricInfo[i].split("]")[1];
+                        newLyric.push(thelyricInfo);
+                    }
+                    _this.lyricInfo=newLyric;
+                }else{
+                    _this.lyricInfo=[];
                 }
-                _this.lyricInfo=newLyric;
             })
         },
         //监听音乐播放时间
-        getMusicInfo:function(){
+        getMusicInfo(){
             var _this=this;
             var audioElement=document.getElementById("MusicURL");
             var playElement=document.getElementById("play");
@@ -71,7 +83,7 @@ export default{
             },false);
         },
         //开始播放音乐
-        beginPlay:function(){
+        beginPlay(){
             var _this=this;
             var audioElement=document.getElementById("MusicURL");
             var playElement=document.getElementById("play");
@@ -85,7 +97,7 @@ export default{
             },false);
         },
         //暂停播放音乐
-        endPlay:function(){
+        endPlay(){
             var _this=this;
             var audioElement=document.getElementById("MusicURL");
             var playElement=document.getElementById("play");
@@ -99,7 +111,7 @@ export default{
             },false);
         },
         //妙转分
-        parseSecondToMinite:function(second){
+        parseSecondToMinite(second){
             var min=0;
             var sec=0;
             if(second>60){
@@ -111,7 +123,7 @@ export default{
             return (min>10?min:'0'+min)+':'+(sec>=10?sec:'0'+sec);
         },
         //设置歌词播放位置
-        setLyricPosition:function(){
+        setLyricPosition(){
             var _this=this;
             var allLyricElem
             if(document.getElementsByClassName("lt-lyric")[0]){
@@ -136,7 +148,7 @@ export default{
             }
         },
         //移除当前播放位置样式
-        removeNowClass:function(){
+        removeNowClass(){
             var allLyricElem=document.getElementsByClassName("lt-lyric")[0].childNodes;
             allLyricElem.forEach(function(ele){
                 ele.className='';

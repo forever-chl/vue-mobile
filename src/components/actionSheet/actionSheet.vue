@@ -32,6 +32,13 @@
                     if(ret){
                          _this.getSongDetail(ret.buttonVal);
                     }
+                },function(ret){
+                    if(ret){
+                        console.log(_this.btns);
+                        console.log(ret.buttonsIndex);
+                        _this.btns.splice(ret.buttonsIndex,1);
+                        console.log(_this.btns);
+                    }
                 })
             },
             getSongDetail(id){

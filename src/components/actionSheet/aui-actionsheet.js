@@ -10,7 +10,7 @@
     };
     var isShow = false;
     auiActionsheet.prototype = {
-        init: function(params,callback){
+        init: function(params,callback,delcallback){
             this.frameBounces = params.frameBounces;
             this.title = params.title;
             this.buttons = params.buttons;
@@ -21,9 +21,9 @@
             this.maskDiv;
             this.actionsheetDiv;
             var self = this;
-            self.open(params,callback);
+            self.open(params,callback,delcallback);
         },
-        open: function(params,callback) {
+        open: function(params,callback,delcallback) {
             var titleHtml='',buttonsHtml='',destructiveHtml='',cancelHtml='',btnHtml='';
         	var self = this;
             if(self.actionsheetDiv || (!self.title && !self.buttons && !self.cancelTitle && !self.destructiveTitle))return;
@@ -41,9 +41,19 @@
             if(self.buttons && self.buttons.length){
                 for(var i = 0; i < self.buttons.length;i++){
                     if(i == self.buttons.length-1){
-                        buttonsHtml += '<div class="aui-actionsheet-btn-item" tag="'+self.buttons[i][self.buttonsVal]+'">'+self.buttons[i][self.buttonsText]+'</div>';
+                        buttonsHtml += '<div class="aui-actionsheet-btn-item">';
+                        buttonsHtml+='<span class="aui-actionsheet-btn-item-name" tag="'+self.buttons[i][self.buttonsVal]+'">'+self.buttons[i][self.buttonsText]+'</span>';
+                        if(delcallback){
+                            buttonsHtml+='<span class="aui-actionsheet-btn-item-close"></span>'
+                        }
+                        buttonsHtml+='</div>';
                     }else{
-                        buttonsHtml += '<div class="aui-actionsheet-btn-item aui-border-b" tag="'+self.buttons[i][self.buttonsVal]+'">'+self.buttons[i][self.buttonsText]+'</div>';
+                        buttonsHtml+='<div class="aui-actionsheet-btn-item aui-border-b">';
+                        buttonsHtml+='<span class="aui-actionsheet-btn-item-name" tag="'+self.buttons[i][self.buttonsVal]+'">'+self.buttons[i][self.buttonsText]+'</span>';
+                        if(delcallback){
+                            buttonsHtml+='<span class="aui-actionsheet-btn-item-close"></span>'
+                        }
+                        buttonsHtml+='</div>';
                     }
                 }
             }
@@ -80,15 +90,22 @@
                     self.maskDiv.onclick = function(){self.close();return;};
                     for(var ii = 0; ii < actionsheetButtons.length; ii++){
                         (function(e){
-                            actionsheetButtons[e].onclick = function(){
+                            actionsheetButtons[e].childNodes[0].onclick = function(){
                                 if(callback){
                                     callback({
                                         buttonVal:this.attributes['tag'].value,
                                         buttonTitle: this.textContent
                                     });
                                 };
-                                self.close();
-                                return;
+                            };
+                            if(delcallback){
+                                actionsheetButtons[e].childNodes[1].onclick=function(){
+                                    this.parentNode.remove();
+                                    delcallback({
+                                        buttonIndex:e,
+                                        buttonTitle: this.textContent
+                                    });
+                                };
                             }
                         })(ii)
                     }
