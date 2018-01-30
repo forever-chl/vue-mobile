@@ -68,6 +68,20 @@ module.exports = {
         pathRewrite:{
           '^/song':'/song'
         }
+      },
+      '/login':{
+        target:'http://localhost:3000/',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/login':'/login'
+        }
+      },
+      '/like':{
+        target:'http://localhost:3000/',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/like':'/like'
+        }
       }
     },
 

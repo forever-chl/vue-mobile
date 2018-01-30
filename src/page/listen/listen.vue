@@ -20,6 +20,7 @@
                 <span>{{duration}}</span>
            </div>
            <div class="ltm-btn">
+               <img src="../../assets/img/no-like.png" alt="" @click="collectMusic">
                <i class="iconfont">&#xe64d;</i>
                <i class="iconfont" id="play">&#xe506;</i>
                <i class="iconfont">&#xe601;</i>
