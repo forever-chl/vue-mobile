@@ -27,6 +27,11 @@ body{background-color:#00bda4;overflow-x:hidden;}
 .tantan-list-box.scroll{position:absolute;z-index:999;top:0;left:0;width:100%;box-sizing:border-box;}
 .tantan-list-box.scroll::after{background:none;}
 .tantan-list-box.show{animation:showBox 0.5s linear 1;}
+@keyframes showBox{
+    0%{-webkit-transform:scale(1,1);-moz-transform:scale(1,1);-ms-transform:scale(1,1);-o-transform:scale(1,1);transform:scale(1,1);}
+    50%{-webkit-transform:scale(0.96,0.96);-moz-transform:scale(0.96,0.96);-ms-transform:scale(0.96,0.96);-o-transform:scale(0.96,0.96);transform:scale(0.96,0.96);}
+    100%{-webkit-transform:scale(1,1);-moz-transform:scale(1,1);-ms-transform:scale(1,1);-o-transform:scale(1,1);transform:scale(1,1);}
+}
 
 /* 滑动小点 */
 .tantan-point{text-align:center;margin-top:1rem;}
