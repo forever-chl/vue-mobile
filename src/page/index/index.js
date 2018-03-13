@@ -1,4 +1,5 @@
 import banner from '../../components/banner/banner.vue'
+import taobao from '../../components/taobao/taobao.vue'
 
 export default{
   name:'indexPage',
@@ -21,7 +22,8 @@ export default{
     })
   },
   components:{
-    'banner-swiper':banner
+    'banner-swiper':banner,
+    'my-taobao':taobao
   },
   methods: {
     getWeather() {

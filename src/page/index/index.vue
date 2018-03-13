@@ -17,7 +17,9 @@
               </div>
           </div>
           <div class="box b-c-blue" slot="slot2"></div>
-          <div class="box b-c-green" slot="slot3"></div>
+          <div class="box" slot="slot3">
+              <my-taobao></my-taobao>
+          </div>
           <div class="box b-c-yellow" slot="slot4"></div>
       </banner-swiper>
   </div>
