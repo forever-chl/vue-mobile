@@ -1,3 +1,6 @@
+import tantan from '../../components/tantan/tantan.vue'
 export default{
-    name:'findTemplate'
+    components:{
+        'my-tantan':tantan
+    }
 }

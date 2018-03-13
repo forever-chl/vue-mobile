@@ -7,7 +7,7 @@
            </action-sheet>
        </music-head>
        <!-- 歌词面板 -->
-       <div class="lt-lyric-gb" :style="'background:url(\''+songDetail.al.picUrl+'\') no-repeat center center;background-size:auto 100%;'"></div>
+       <div class="lt-lyric-gb" :style="'background:url(\''+(songDetail.al?songDetail.al.picUrl:'')+'\') no-repeat center center;background-size:auto 100%;'"></div>
        <div class="lt-lyric">
            <p v-for="item in lyricInfo" :key="item.time" :title="item.time">{{item.txt}}</p>
        </div>
@@ -20,7 +20,6 @@
                 <span>{{duration}}</span>
            </div>
            <div class="ltm-btn">
-               <img src="../../assets/img/no-like.png" alt="" @click="collectMusic">
                <i class="iconfont">&#xe64d;</i>
                <i class="iconfont" id="play">&#xe506;</i>
                <i class="iconfont">&#xe601;</i>

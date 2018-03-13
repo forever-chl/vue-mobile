@@ -66,12 +66,6 @@ export default{
                 }
             })
         },
-        collectMusic(){
-            var _this=this;
-            _this.axios.get(`/like?id=${_this.playSong.id}`).then((data)=>{
-                console.log(data);
-            })
-        },
         //监听音乐播放时间
         getMusicInfo(){
             var _this=this;
@@ -84,7 +78,7 @@ export default{
                 _this.durationS=audioElement.duration;
                 _this.setLyricPosition();
             },false);
-            document.getElementById("play").addEventListener("click",function(){
+            playElement.addEventListener("click",function(){
                 _this.beginPlay();
             },false);
         },
