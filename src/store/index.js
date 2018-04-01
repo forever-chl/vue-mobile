@@ -7,14 +7,15 @@ Vue.use(Vuex)
 Vue.use(VueAxios,axios)
 export default new Vuex.Store({
     state:{
-        songList:[],
-        thePlaySong:{index:0,id:0,url:''}
+        songList:JSON.parse(sessionStorage.getItem('songList'))||[],
+        thePlaySong:JSON.parse(sessionStorage.getItem('thePlaySong'))||{index:0,id:0,url:''}
     },
     //值的更改
     mutations:{
         //添加到播放列表
         addSongList:(state,info)=>{
             state.songList.push(info);
+            sessionStorage.setItem('songList',JSON.stringify(state.songList));
         },
         //设置当前播放歌曲
         setTheSong:(state,songInfo)=>{
@@ -23,6 +24,7 @@ export default new Vuex.Store({
                     state.thePlaySong={index:index,id:songInfo.id,url:songInfo.url};
                 }
             });
+            sessionStorage.setItem('thePlaySong',JSON.stringify(state.thePlaySong));
         }
     },
     //值的读取
@@ -33,7 +35,6 @@ export default new Vuex.Store({
         },
         //获取当前播放歌曲
         getPlaySong:state=>{
-            console.log(state.thePlaySong);
             return state.thePlaySong;
         },
         //根据inex获取歌曲

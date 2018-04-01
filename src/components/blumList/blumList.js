@@ -1,5 +1,4 @@
 export default{
-    name:'BlumListTemplate',
     data:function(){
         return {
             dataList:[]

@@ -18,7 +18,6 @@
 </style>
 
 <script>
-    
     export default{
         props:['title']
     }
